@@ -1,16 +1,17 @@
 import pickle
-import Dicionario
+import dicionario
 import matplotlib.pyplot as plt
 import cv2
 import argparse
 
-dic_ori = Dicionario.a
+dic_ori = dicionario.a
 dic_id = pickle.load( open( "dict.p", "rb" ) )
 
 parser = argparse.ArgumentParser(description = 'objeto buscado')
 parser.add_argument(action='store', dest='simple_value',
                     help='Store a simple value')
 results = parser.parse_args()
+
 term = results.simple_value
 
 def achaid():
@@ -18,6 +19,15 @@ def achaid():
     lista_name = []
     for id_item, name in dic_ori.items(): 
         if term in name:
+            lista_id.append(id_item)
+            lista_name.append(name)
+    return lista_id, lista_name
+
+def achaididentico():
+    lista_id=[]
+    lista_name = []
+    for id_item, name in dic_ori.items(): 
+        if term == name:
             lista_id.append(id_item)
             lista_name.append(name)
     return lista_id, lista_name
