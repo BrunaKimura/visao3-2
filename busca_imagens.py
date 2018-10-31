@@ -8,8 +8,11 @@ dic_ori = dicionario.a
 dic_id = pickle.load( open( "dict.p", "rb" ) )
 
 parser = argparse.ArgumentParser(description = 'objeto buscado')
-parser.add_argument(action='store', dest='simple_value',
+parser.add_argument('--partial', action='store_true')
+
+parser.add_argument(action='store',dest='simple_value',
                     help='Store a simple value')
+
 results = parser.parse_args()
 
 term = results.simple_value
@@ -34,7 +37,15 @@ def achaididentico():
 
 find = 0
 indice = 0
-id_itens, lista_name = achaid()
+if results.partial == True:
+    id_itens, lista_name = achaid()
+else:
+    id_itens, lista_name = achaididentico()
+    
+
+if id_itens == []:
+    print("utilize o argumento '--partial ' ou digite o nome da categoria completa")
+
 for id_atual in id_itens:
     for key in dic_id:
         if key == id_atual:
@@ -52,9 +63,9 @@ for id_atual in id_itens:
             new_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             
             plt.subplot(2,3,index)
+            plt.title("confiança: {:.4f}".format(max_porc5[index-1][0]))
             plt.imshow(new_img)
             index+=1
-        print(lista_name)
         plt.suptitle(lista_name[indice])
         plt.show()
     else:
